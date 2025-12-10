@@ -535,11 +535,18 @@ export default function Home() {
               </div>
               
               {/* Contact form */}
-              <form className="undertale-box space-y-6">
+              <form 
+                name="contact" 
+                method="POST" 
+                data-netlify="true"
+                className="undertale-box space-y-6"
+              >
+                <input type="hidden" name="form-name" value="contact" />
                 <div>
                   <label className="block text-white font-bold mb-2 undertale-yellow text-lg">NAME</label>
                   <input 
                     type="text" 
+                    name="name"
                     className="w-full px-4 py-3 bg-black border-2 border-white text-white focus:outline-none focus:border-yellow-400 rounded-lg"
                     placeholder="Your name"
                   />
@@ -549,6 +556,7 @@ export default function Home() {
                   <label className="block text-white font-bold mb-2 undertale-yellow text-lg">EMAIL</label>
                   <input 
                     type="email" 
+                    name="email"
                     className="w-full px-4 py-3 bg-black border-2 border-white text-white focus:outline-none focus:border-yellow-400 rounded-lg"
                     placeholder="your.email@example.com"
                   />
@@ -558,6 +566,7 @@ export default function Home() {
                   <label className="block text-white font-bold mb-2 undertale-yellow text-lg">MESSAGE</label>
                   <textarea 
                     rows={6}
+                    name="message"
                     className="w-full px-4 py-3 bg-black border-4 border-white text-white focus:outline-none focus:border-yellow-400 resize-none"
                     style={{ imageRendering: 'pixelated', borderRadius: '0' }}
                     placeholder="Tell us what's on your mind..."
