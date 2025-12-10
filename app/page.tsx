@@ -528,7 +528,7 @@ export default function Home() {
                     <h3 className="text-2xl font-bold undertale-yellow">Social Media</h3>
                   </div>
                   <div className="flex flex-col gap-3">
-                    <a href="#" className="text-white hover:text-yellow-400 transition-colors font-bold text-lg">Instagram</a>
+                    <a href="https://www.instagram.com/palura.official/" className="text-white hover:text-yellow-400 transition-colors font-bold text-lg">Instagram</a>
                     <a href="#" className="text-white hover:text-yellow-400 transition-colors font-bold text-lg">Discord</a>
                   </div>
                 </div>

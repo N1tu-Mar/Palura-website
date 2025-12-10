@@ -1,6 +1,24 @@
 'use client';
 
-import { useRef, useEffect, useCallback } from 'react';
+import { useRef, useEffect, useCallback, ReactNode } from 'react';
+
+interface ClickSparkProps {
+  sparkColor?: string;
+  sparkSize?: number;
+  sparkRadius?: number;
+  sparkCount?: number;
+  duration?: number;
+  easing?: 'linear' | 'ease-out' | 'ease-in' | 'ease-in-out';
+  extraScale?: number;
+  children?: ReactNode;
+}
+
+interface Spark {
+  x: number;
+  y: number;
+  angle: number;
+  startTime: number;
+}
 
 const ClickSpark = ({
   sparkColor = '#fff',
@@ -11,10 +29,10 @@ const ClickSpark = ({
   easing = 'ease-out',
   extraScale = 1.0,
   children
-}) => {
-  const canvasRef = useRef(null);
-  const sparksRef = useRef([]);
-  const startTimeRef = useRef(null);
+}: ClickSparkProps) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const sparksRef = useRef<Spark[]>([]);
+  const startTimeRef = useRef<number | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -23,7 +41,7 @@ const ClickSpark = ({
     const parent = canvas.parentElement;
     if (!parent) return;
 
-    let resizeTimeout;
+    let resizeTimeout: NodeJS.Timeout | undefined;
 
     const resizeCanvas = () => {
       const { width, height } = parent.getBoundingClientRect();
@@ -49,7 +67,7 @@ const ClickSpark = ({
   }, []);
 
   const easeFunc = useCallback(
-    t => {
+    (t: number): number => {
       switch (easing) {
         case 'linear':
           return t;
@@ -69,9 +87,10 @@ const ClickSpark = ({
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
-    let animationId;
+    if (!ctx) return;
+    let animationId: number;
 
-    const draw = timestamp => {
+    const draw = (timestamp: number) => {
       if (!startTimeRef.current) {
         startTimeRef.current = timestamp;
       }
@@ -114,7 +133,7 @@ const ClickSpark = ({
     };
   }, [sparkColor, sparkSize, sparkRadius, sparkCount, duration, easeFunc, extraScale]);
 
-  const handleClick = e => {
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 

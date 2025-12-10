@@ -36,22 +36,22 @@ const PillNav = ({
 }: PillNavProps) => {
   const resolvedPillTextColor = pillTextColor ?? baseColor;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const circleRefs = useRef([]);
-  const tlRefs = useRef([]);
-  const activeTweenRefs = useRef([]);
-  const logoImgRef = useRef(null);
-  const logoTweenRef = useRef(null);
-  const hamburgerRef = useRef(null);
-  const mobileMenuRef = useRef(null);
-  const navItemsRef = useRef(null);
-  const logoRef = useRef(null);
+  const circleRefs = useRef<(HTMLElement | null)[]>([]);
+  const tlRefs = useRef<(gsap.core.Timeline | null)[]>([]);
+  const activeTweenRefs = useRef<(gsap.core.Tween | null)[]>([]);
+  const logoImgRef = useRef<HTMLImageElement | null>(null);
+  const logoTweenRef = useRef<gsap.core.Tween | null>(null);
+  const hamburgerRef = useRef<HTMLButtonElement | null>(null);
+  const mobileMenuRef = useRef<HTMLDivElement | null>(null);
+  const navItemsRef = useRef<HTMLDivElement | null>(null);
+  const logoRef = useRef<HTMLAnchorElement | null>(null);
 
   useEffect(() => {
     const layout = () => {
-      circleRefs.current.forEach(circle => {
+      circleRefs.current.forEach((circle) => {
         if (!circle?.parentElement) return;
 
-        const pill = circle.parentElement;
+        const pill = circle.parentElement as HTMLElement;
         const rect = pill.getBoundingClientRect();
         const { width: w, height: h } = rect;
 
@@ -137,7 +137,7 @@ const PillNav = ({
     return () => window.removeEventListener('resize', onResize);
   }, [items, ease, initialLoadAnimation]);
 
-  const handleEnter = i => {
+  const handleEnter = (i: number) => {
     const tl = tlRefs.current[i];
     if (!tl) return;
 
@@ -149,7 +149,7 @@ const PillNav = ({
     });
   };
 
-  const handleLeave = i => {
+  const handleLeave = (i: number) => {
     const tl = tlRefs.current[i];
     if (!tl) return;
 
@@ -226,19 +226,20 @@ const PillNav = ({
     onMobileMenuClick?.();
   };
 
-  const isExternalLink = href =>
+  const isExternalLink = (href: string | undefined): boolean =>
     href?.startsWith('http://') ||
     href?.startsWith('https://') ||
     href?.startsWith('//') ||
     href?.startsWith('mailto:') ||
     href?.startsWith('tel:') ||
-    href?.startsWith('#');
+    href?.startsWith('#') ||
+    false;
 
-  const cssVars = {
-    ['--base']: baseColor,
-    ['--pill-bg']: pillColor,
-    ['--hover-text']: hoveredPillTextColor,
-    ['--pill-text']: resolvedPillTextColor
+  const cssVars: React.CSSProperties = {
+    ['--base' as any]: baseColor,
+    ['--pill-bg' as any]: pillColor,
+    ['--hover-text' as any]: hoveredPillTextColor,
+    ['--pill-text' as any]: resolvedPillTextColor
   };
 
   // Filter out the first item if it's the home/logo link
